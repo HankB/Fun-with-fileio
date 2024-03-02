@@ -5,7 +5,6 @@
 gcc -Wall -o fileio fileio.c
 */
 
-
 int get_vals(float *v1, float *v2, float *v3)
 {
     FILE *f;
@@ -36,14 +35,14 @@ int put_vals(float v1, float v2, float v3)
         return -1;
     }
     int rc = fprintf(f, "%f %f %f\n", v1, v2, v3);
-    printf("put_vals() %d chars written\n", rc );
+    printf("put_vals() %d chars written\n", rc);
     fclose(f);
     return rc;
 }
 
 int main(int argc, char **argv)
 {
-    float temperature=0, humidity=1, pressure=2;
+    float temperature = 0, humidity = 1, pressure = 2;
     if (0 == get_vals(&temperature, &humidity, &pressure))
     {
         printf("read %f, %f, %f\n", temperature, humidity, pressure);
@@ -53,5 +52,5 @@ int main(int argc, char **argv)
         printf("Can't fetch values from file\n");
     }
 
-    put_vals(temperature+1, humidity+1, pressure+1);
+    put_vals(temperature + 1, humidity + 1, pressure + 1);
 }
