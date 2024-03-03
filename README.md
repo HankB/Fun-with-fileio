@@ -38,3 +38,5 @@ rm $image
 ```
 
 TIL that `fprintf()` on a full filesystem will succeed and return the number of characters that sould have been written had there been space. The subsequent `fclose()` reports the `No space left on device` error.
+
+TIL successful file I/O operatiosn won't reset the output from `perror()`.
