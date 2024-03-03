@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-/*
-gcc -Wall -o fileio fileio.c
-*/
-
-// static const char *val_file_name = "/media/hbarta/test1/vals";
-static const char *val_file_name = "/tmp/vals";
+#include "fileio.h"
 
 /* open file to read values
     0 == success
@@ -56,21 +51,4 @@ int put_vals(const char *filename, float v1, float v2, float v3, unsigned int co
     perror("post fclose");
     printf("fclose() %d, errno %d\n", rc, errno);
     return errno;
-}
-
-int main(int argc, char **argv)
-{
-    float temperature = 0, humidity = 1, pressure = 2;
-    unsigned int count = 0;
-
-    if (0 == get_vals(val_file_name, &temperature, &humidity, &pressure, &count))
-    {
-        printf("read %f, %f, %f, %d\n", temperature, humidity, pressure, count);
-    }
-    else
-    {
-        printf("Can't fetch values from file\n");
-    }
-
-    put_vals(val_file_name, temperature + 1, humidity + 1, pressure + 1, ++count);
 }
