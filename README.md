@@ -14,3 +14,27 @@ Write `C` functions to
 
 * Open a file if it exists and read and transform three space separated values to floats.
 * Write three new values back to the file and close it.
+
+## Testing
+
+Instructions for creating a loop filesystem for testing at <https://www.reddit.com/r/linuxquestions/comments/e8t1yk/create_loop_filesystem_without_root/
+> (Something I asked years ago for similar reasons.)
+
+```text
+loopdev=$(losetup -f)                           # Identify next avilable loop device
+image=fs1.img                                   # image filename
+dd if=/dev/zero of=$image bs=1024 count=128    # Create file for FS
+mke2fs -b 1024 $image -L test1                 # create fs
+udisksctl loop-setup -f $image                 # create loop device backed by fs1.img
+udisksctl mount -b $loopdev                     # Mount (should be /media/hbarta/test1)
+sudo chmod a+rwx /media/hbarta/test1/           # make writable
+dd if=/dev/zero of=/media/hbarta/test1/filler \
+        bs=1024 count=99                        # fill that baby up. use count=97 for space
+
+# do testing stuff
+udisksctl unmount -b $loopdev                   # unmount
+udisksctl loop-delete -b $loopdev               # unwind loop device
+rm $image
+```
+
+TIL that `fprintf()` on a full filesystem will succeed and return the number of characters that sould have been written had there been space. The subsequent `fclose()` reports the `No space left on device` error.
